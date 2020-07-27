@@ -1,0 +1,17 @@
+<updates>
+    <update>
+        <name>JoomShopping - Quick Order By Gartes</name>
+        <description><![CDATA[JoomShopping - Quick Order update]]></description>
+        <type>plugin</type>
+        <folder>jshoppingproducts</folder>
+        <element>quickorder</element>
+        <version>4.2</version>
+        <client>0</client>
+        <infourl title="github.com">https://github.com/Gartes-JoomShopping/plg_system_joomshopping_smart_filter</infourl>
+        <downloads>
+            <downloadurl type="full" format="zip">https://github.com/Gartes-JoomShopping/plg_jshoppingproducts_quickorder/archive/master.zip</downloadurl>
+        </downloads>
+        <targetplatform name="joomla" version=".*"/>
+        <php_minimum>5.3.10</php_minimum>
+    </update>
+</updates>

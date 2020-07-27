@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" group="jshoppingproducts" method="upgrade">
+	<name>JoomShopping - Quick Order</name>
+	<author>Gartes</author>
+	<creationDate>27.07.2020</creationDate>
+	<copyright>Copyright © Nevigen.com. All rights reserved.</copyright>
+	<license></license>
+	<authorEmail>sad.net79@gmail.com</authorEmail>
+	<authorUrl></authorUrl>
+    <version>4.2</version>
+	<description><![CDATA[Developed & Powered by Gartes ]]></description>
+	<files>
+		<folder>assets</folder>
+		<folder>language</folder>
+		<folder>tmpl</folder>
+		<filename plugin="quickorder">quickorder.php</filename>
+		<filename>quickorder_update.xml</filename>
+		<filename>README.md</filename>
+	</files>
+	<updateservers>
+		<server type="extension" priority="1" name="JoomShopping - Quick Order">https://raw.githubusercontent.com/Gartes-JoomShopping/plg_jshoppingproducts_quickorder/master/quickorder_update.xml</server>
+	</updateservers>
+</extension>        	    	   	  		          	
