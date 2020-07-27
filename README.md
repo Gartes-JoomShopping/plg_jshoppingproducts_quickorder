@@ -1,0 +1,2 @@
+# plg_jshoppingproducts_quickorder
+Плагин быстрого заказа JoomShoping
