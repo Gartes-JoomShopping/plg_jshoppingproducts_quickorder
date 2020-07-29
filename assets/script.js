@@ -49,4 +49,12 @@ quickOrder.submitForm = function() {
 	});
 	$('#quickorderpopup form input[name="to"]').val('quickorder');
 	return true;
-}        	    	   	  		          	
+}
+
+
+
+
+
+
+
+

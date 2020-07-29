@@ -5,7 +5,7 @@
 * @author Nevigen.com
 * @website https://nevigen.com/
 * @email support@nevigen.com
-* @copyright Copyright � Nevigen.com. All rights reserved.
+* @copyright Copyright � Nevigen.com. All rights reserved.
 * @license Proprietary. Copyrighted Commercial Software
 * @license agreement https://nevigen.com/license-agreement.html
 **/
@@ -17,7 +17,7 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
 	private $addonParams;
 	private $addonForm;
 
-	private function _init() {
+	private function _init( $Ajax = false ) {
 		if (!$this->addonParams) {
 			JFactory::getLanguage()->load('plg_jshoppingproducts_quickorder', JPATH_SITE.'/plugins/jshoppingproducts/quickorder', null, false, 'en-GB');
 			$addon = JTable::getInstance('Addon', 'jshop');
@@ -31,11 +31,17 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
 				} else {
 					include __DIR__ . '/tmpl/form.php';
 				}
-				$this->addonForm = ob_get_contents();  
+                /*$this->addonForm = null ;
+                if ($Ajax) {
+                    $this->addonForm = ob_get_contents();
+                }#END IF*/
+                $this->addonForm = ob_get_contents();
 				ob_end_clean();
 
 				if ($this->addonParams->load_assets) {
 					$document = JFactory::getDocument();
+
+					$document->addScript(JURI::base(true).'/plugins/jshoppingproducts/quickorder/assets/driver.js');
 					$document->addScript(JURI::base(true).'/plugins/jshoppingproducts/quickorder/assets/script.js');
 					$document->addStyleSheet(JURI::base(true).'/plugins/jshoppingproducts/quickorder/assets/style.css');
 				}
@@ -94,5 +100,35 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
 			ob_end_clean();
 		}
 	}
+
+    /**
+     * Загрузка формы - Ajax
+     *
+     * @since version
+     */
+    public function onAjaxQuickOrder(){
+
+	    try
+	    {
+            $this->_init(true);
+            $result['form'] = $this->addonForm ;
+	        // Code that may throw an Exception or Error.
+            echo new JResponseJson($result);
+            die();
+
+	        // throw new Exception('Code Exception '.__FILE__.':'.__LINE__) ;
+	    }
+	    catch (Exception $e)
+	    {
+	        // Executed only in PHP 5, will not be reached in PHP 7
+	        echo 'Выброшено исключение: ',  $e->getMessage(), "\n";
+	        echo'<pre>';print_r( $e );echo'</pre>'.__FILE__.' '.__LINE__;
+	        die(__FILE__ .' '. __LINE__ );
+	    }
+
+
+
+    }
+
 
 }
