@@ -18,6 +18,41 @@
 		<filename>quickorder_update.xml</filename>
 		<filename>README.md</filename>
 	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="debug_on"
+					type="radio"
+					default="0"
+					label="QUICKORDER_DEBUG_ON"
+					description="QUICKORDER_DEBUG_ON_DESC"
+					class="btn-group btn-group-yesno"
+					showon=""
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="theme"
+					type="list"
+					default="light"
+					required=""
+					label="QUICKORDER_THEME"
+					description="QUICKORDER_THEME_DESC"
+					class="them "
+					multiple="false"
+					readonly=""
+					showon=""
+					filter="raw" >
+						<option value="light">Light</option>
+						<option value="dark">Dark</option>
+					</field>	
+					
+
+			</fieldset>
+		</fields>
+
+	</config>
+
 	<updateservers>
 		<server type="extension" priority="1" name="JoomShopping - Quick Order">https://raw.githubusercontent.com/Gartes-JoomShopping/plg_jshoppingproducts_quickorder/master/quickorder_update.xml</server>
 	</updateservers>

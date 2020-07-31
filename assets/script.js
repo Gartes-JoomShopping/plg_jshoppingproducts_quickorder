@@ -47,7 +47,8 @@ quickOrder.submitForm = function() {
 			$('#quickorderpopup form').append('<input type="hidden" name="'+this.name+'" value="'+this.value+'" />');
 		}
 	});
-	$('#quickorderpopup form input[name="to"]').val('quickorder');
+	  // $('#quickorderpopup form input[name="to"]').val('quickorder');
+
 	return true;
 }
 

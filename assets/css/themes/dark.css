@@ -1,0 +1,12 @@
+.quickorderForm .fancybox-content{
+    background: #424866;
+}
+.quickorderForm .fancybox-close-small svg path {
+    fill: #ffffff;
+}
+.quickorderForm .fancybox-close-small svg:hover path {
+    fill: red;
+}
+#quickorderpopup .header{
+    color: #ffffff;
+}

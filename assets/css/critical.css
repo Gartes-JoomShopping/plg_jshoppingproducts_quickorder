@@ -1,0 +1,47 @@
+.compensate-for-scrollbar .container,
+.compensate-for-scrollbar div#text {
+    margin-right: 15px;
+}
+.compensate-for-scrollbar jdiv {
+    display: none;
+}
+
+.bistro-cat .btn.btn-info.quickorder{
+   /* opacity: 0.1;*/
+}
+
+.quickorder{
+    display:inline-block;
+}
+.mainblock .btn.btn-info.quickorder {
+    width: 48%;
+    border-radius: 0px;
+    margin: 0 0 0 5%;
+}
+@media only screen and (max-width: 1380px) {
+    .mainblock .btn.btn-info.quickorder {
+        width: 48%;
+        border-radius: 0px;
+        margin: 0 0 0 5%;
+        font-size: 12px;
+    }
+}
+.bistro-cat .btn.btn-info.quickorder {
+    background: #fff !important;
+    border: none;
+    border-radius: 0px;
+    box-shadow: none;
+    color: #f56212 !important;
+    cursor: pointer;
+    /* float: left; */
+    font-size: 16px;
+    /* height: 20px; */
+    line-height: 30px;
+    margin: 0;
+    padding: 0px;
+    position: relative;
+    width: 99%;
+    text-align: center;
+    /* font-weight: bold; */
+    border: 2px solid #f56212;
+}
