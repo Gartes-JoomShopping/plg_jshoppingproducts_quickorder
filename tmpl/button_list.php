@@ -15,8 +15,7 @@ defined('_JEXEC') or die;
 
 <!--onclick="quickOrder.openForm(this,--><?php //echo $product->category_id ?><!--,--><?php //echo $product->product_id ?><!--)"-->
 <!--  onclick="quickOrder._start(event)" -->
-<span class="btn btn-info quickorder"
-
-      data-name="<?php echo htmlspecialchars($product->name) ?>">
-	<?php echo JText::_('PLG_JSHOPPINGPRODUCTS_QUICKORDER_LINK') ?>
+<span class="btn btn-info quickorder" >
+<!--    data-name="--><?php //echo htmlspecialchars($product->name) ?><!--"-->
+<!--	--><?php //echo JText::_('PLG_JSHOPPINGPRODUCTS_QUICKORDER_LINK') ?>
 </span>

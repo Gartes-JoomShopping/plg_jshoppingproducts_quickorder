@@ -10,6 +10,8 @@
 * @license agreement https://nevigen.com/license-agreement.html
 **/
 
+use Joomla\CMS\Language\Text;
+
 defined('_JEXEC') or die;
 
 
@@ -23,6 +25,12 @@ defined('_JEXEC') or die;
 			<div class="container-product"><?= $this->productHtml ?></div>
             <div class="header product_name"></div>
 			<div class="clearfix"> </div>
+            <input type="text" style="width: 0px;
+    min-width: 0;
+    height: 0px;
+    border: none;
+    padding: 0;
+    position: absolute;">
 			<?php if ($this->addonParams->show_f_name)
 			{ ?>
 				<div class="quickorderformrow control-group">
@@ -37,14 +45,18 @@ defined('_JEXEC') or die;
 			{ ?>
                 <div class="quickorderformrow control-group">
                     <div class="input-prepend ">
-
-                        <input type="text" name="l_name" value="<?php
-                        print $adv_user->l_name ?>" <?php
-                               if($this->addonParams->show_l_name == 1) { ?>data-required<?php
-                        } ?> placeholder="<?php
-                        echo JText::_('PLG_JSHOPPINGPRODUCTS_QUICKORDER_USER_L_NAME');
-                        if( $this->addonParams->show_l_name == 1 )
-                            echo JText::_('PLG_JSHOPPINGPRODUCTS_QUICKORDER_REQUIRED'); ?>"/>
+                        <?php
+                        $placeholder_input_l_name = Text::_('PLG_JSHOPPINGPRODUCTS_QUICKORDER_USER_L_NAME');
+                        $placeholder_input_l_name .= ($this->addonParams->show_l_name?JText::_('PLG_JSHOPPINGPRODUCTS_QUICKORDER_REQUIRED') : null ) ;
+//                       /* placeholder="" */
+                        ?>
+                        <input type="text"
+                               name="l_name" value="<?= $adv_user->l_name ?>"
+                               <?= ($this->addonParams->show_l_name?'data-required' : null )?>
+                               />
+                        <label for="phone">
+                            <?= $placeholder_input_l_name ?>
+                        </label>
                     </div>
                 </div>
             <?php
@@ -52,10 +64,21 @@ defined('_JEXEC') or die;
 
 			if ($this->addonParams->show_phone) { ?>
 				<div class="quickorderformrow control-group">
-					<div class="input-prepend">
-					  
-					  <input type="text" class=" jmp__input_tel"  name="phone" value="<?php print $adv_user->{$this->addonParams->which_phone} ?>" <?php if ($this->addonParams->show_phone == 1) { ?>data-required<?php } ?> placeholder="<?php echo JText::_('PLG_JSHOPPINGPRODUCTS_QUICKORDER_USER_PHONE');if ($this->addonParams->show_phone == 1) echo JText::_('PLG_JSHOPPINGPRODUCTS_QUICKORDER_REQUIRED'); ?>"/>
-					</div>
+                    <div class="input-prepend">
+                        <?php
+                        $placeholder_input_tel = Text::_('PLG_JSHOPPINGPRODUCTS_QUICKORDER_USER_PHONE') ;
+                        $placeholder_input_tel .= ($this->addonParams->show_phone ? Text::_('PLG_JSHOPPINGPRODUCTS_QUICKORDER_REQUIRED'):null ) ;
+
+                         /*
+                          * placeholder="<?= $placeholder_input_tel ?>"
+                          */
+                        ?>
+                        <input type="text" class=" jmp__input_tel" name="phone"
+                               value="<?php print $adv_user->{$this->addonParams->which_phone} ?>"
+                               <?= ( $this->addonParams->show_phone ? 'data-required' : null )?>
+                                />
+                        <label for="phone"><?= $placeholder_input_tel ?></label>
+                    </div>
 				</div>
 			<?php }
 
@@ -81,7 +104,7 @@ defined('_JEXEC') or die;
 
                     <div class="input-prepend">
                         <div class="btn-wrp float-right">
-                            <button type="submit" class="btn btn-info button ">
+                            <button type="submit" class="btn btn-info button disabled">
                                 <?=JText::_('PLG_JSHOPPINGPRODUCTS_QUICKORDER_SUBMIT') ?>
                             </button>
                         </div>

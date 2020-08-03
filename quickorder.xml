@@ -46,7 +46,57 @@
 						<option value="light">Light</option>
 						<option value="dark">Dark</option>
 					</field>	
+				<field name="btnProductText"
+					type="text"
+					default=""
+					class="btnProductText "
+					readonly=""
+					required=""
+					label="QUICKORDER_BTN_PRODUCT_TEXT"
+					description="QUICKORDER_BTN_PRODUCT_TEXT_DESC"
+					showon=""
+					hint=""
+					filter="raw" />
 					
+					
+				<field name="btnProductOrdered"
+					type="text"
+					default=""
+					class="btnProductOrdered "
+					readonly=""
+					required=""
+					label="QUICKORDER_BTN_PRODUCT_ORDERED"
+					description="QUICKORDER_BTN_PRODUCT_ORDERED_DESC"
+					showon=""
+					hint=""
+					filter="raw" />
+
+				<field name="phoneMask"
+					type="text"
+					default="+7 (000) 000-00-00"
+					class="phoneMask "
+					readonly=""
+					required=""
+					label="QUICKORDER_PHONE_MASK"
+					description="QUICKORDER_PHONE_MASK_DESC"
+					showon=""
+					hint=""
+					filter="raw" />
+				<field name="TimeOutModalAccept"
+					type="text"
+					default="8"
+					class="TimeOutModalAccept "
+					readonly=""
+					required=""
+					label="QUICKORDER_TIME_OUT_MODAL_ACCEPT"
+					description="QUICKORDER_TIME_OUT_MODAL_ACCEPT_DESC"
+					showon=""
+					hint=""
+					filter="raw" />
+
+
+
+						
 
 			</fieldset>
 		</fields>

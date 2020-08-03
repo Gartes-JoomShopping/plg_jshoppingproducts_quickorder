@@ -1,43 +1,21 @@
-.quickorderForm .fancybox-close-small svg path{
+.quickorderForm .fancybox-close-small svg path {
     transition: all .3s;
 }
-.quickorderForm #quickorderpopup {/* padding: 25px; *//* width:100%; *//* height:100%; *//* top:0; *//* left:0; *//* position:fixed; *//* z-index:88888888; *//* background:rgba(0,0,0,0.8); *//* display:none; *//* border-radius: 8px; */min-height: 314px;}
+
+.quickorderForm #quickorderpopup {
+    min-height: 400px;
+}
 
 div#quickorderpopup .product-image img {
-    width: 150px;
+    width: 120px;
 }
 
 div#quickorderpopup .productData {
     max-width: 250px;
 }
 
-#quickorderpopup form {
-    /* display: inline-block; */
-    /* background: #424866; */
-    /* width: 800px; */
-    /* box-shadow: 0 0 15px #0009; */
-    /* border-radius: 5px; */
-    /* padding: 0 0 20px 10px; */
-    /* position: relative; */
-}
-
 #quickorderpopup > div {
-    /* display: table-cell; */
     text-align: center;
-    /* vertical-align: middle; */
-}
-
-.quickord_wrapper {
-    /* width: 100%; */
-    /* padding: 10px; */
-    /* display: block; */
-    min-height: 320px;
-}
-
-#quickorderpopup form {
-    /* display: inline-block; */
-    /* background: #fff; */
-    /* width: 300px; */
 }
 
 #quickorderpopup .quickorderclose {
@@ -48,21 +26,15 @@ div#quickorderpopup .productData {
     cursor: pointer;
 }
 
-#quickorderpopup .header {
-    /* font-size: 28px; */
-    /* padding: 15px 0 10px; */
-    /* margin-bottom: 15px; */
-    /* border-bottom: 1px solid #ddd; */
-    /* color: #15749a; */
-    /* max-width: 90%; */
-}
-
 #quickorderpopup a.close {
     padding: 10px;
     font-size: 200%;
 }
 
-.quickorderformrow > div {float: left;margin-top: 14px;}
+.quickorderformrow > div {
+    float: left;
+    margin-top: 21px;
+}
 
 .quickorderformrow.control-group.submit .input-prepend {
     width: 100%;
@@ -71,17 +43,17 @@ div#quickorderpopup .productData {
 
 .quickorderformrow.control-group.submit .input-prepend .float-right {
     float: right;
-    /* margin-left: -44px; */
     width: 50%;
     position: relative;
 }
 
-.quickorderformrow.control-group.submit .input-prepend .float-right button {}
+#quickorderpopup .quickorderformrow.control-group.submit .input-prepend .float-right button.disabled {
+    background: #afafaf;
+    cursor: default;
+}
 
 .quickorderformrow.control-group.submit .input-prepend .float-right button {
-    /* float: right; */
     margin-left: 58px;
-    /* display: block; */
 }
 
 .quickorder-footer {
@@ -92,63 +64,45 @@ div#quickorderpopup .productData {
     border-top: 1px solid #ccc9;
 }
 
-.quickorderformrow.control-group.submit button {
+#quickorderpopup .quickorderformrow.control-group.submit button.btn-info {
     font-size: 16px;
     border-radius: 0;
-    background: #ff7800 !important;
+    background: #ff7800;
     height: 32px;
     line-height: 2px;
     padding: 10px;
     width: auto;
 }
 
-form >.quickorderformrow.control-group {
-    /* float: left; */
-    /* max-width: 260px; */
-}
-
-#quickorderpopup input {
-    min-width: 250px;
-}
-
 #quickorderpopup textarea {
     width: 250px;
     height: 100px;
 }
-#quickorderpopup form {
-    /* display: inline-block; */
-    /* background: #424866; */
-    /* width: 800px; */
-    /* box-shadow: 0 0 15px #0009; */
-    /* border-radius: 5px; */
-    /* padding: 0 0 20px 10px; */
-    /* position: relative; */
-}
+
 #quickorderpopup .header {
     position: absolute;
     top: 9px;
     margin-left: -44px;
-    /* margin-bottom: 10px; */
     font-size: 18px;
-    /* line-height: 28px; */
     text-align: center;
-    /* color: #fff; */
     text-transform: uppercase;
-    /* border:none; */
     min-width: 100%;
 }
+
 #quickorderpopup .fielderror {
     background: rgba(255, 83, 83, 0.1);
 }
+
 .input-prepend {
-    /* width: 33%; */
     float: left;
+    position: relative;
 }
+
 #quickorderpopup input {
     border: 1px solid #ccc;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-    -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
     border-radius: 5px;
@@ -156,20 +110,39 @@ form >.quickorderformrow.control-group {
     color: #555;
     background-color: #fff;
     height: 40px;
-    /* max-width: 100%; */
-    /* width: 100%; */
     padding: 4px 6px;
-    /* box-sizing: border-box !important; */
-    /* -webkit-box-sizing: border-box !important; */
     -moz-box-sizing: border-box !important;
     font-size: 13px;
     line-height: 18px;
     margin: 0px;
+    min-width: 250px;
 }
-/*.input-prepend {
-	width: 33%;
-	float: left;
-}*/
+
+#quickorderpopup input + label {
+    position: absolute;
+    display: inherit;
+    top: 12px;
+    left: 7px;
+    transition: all .4s;
+    background: #fff;
+}
+
+#quickorderpopup input:focus + label {
+    opacity: 1;
+    top: -18px;
+    font-size: 12px;
+}
+
+#quickorderpopup input.no-empty + label {
+    top: -18px;
+    font-size: 12px;
+}
+
+#quickorderpopup .wrapMaskPhone:after {
+    top: 5px;
+    right: 7px;
+}
+
 #quickorderpopup textarea {
     padding: 4px 6px;
     height: 110px;
@@ -178,3 +151,81 @@ form >.quickorderformrow.control-group {
     border-radius: 5px;
     float: left;
 }
+
+.order_accept.fancybox-content {
+    text-align: center;
+    font-size: 1.6em;
+}
+
+
+.input-prepend label {
+    position: absolute;
+    left: 8px;
+    top: 11px;
+    display: inherit;
+    transition: all 0.5s;
+    background: #fff;
+    padding: 0 3px;
+}
+
+
+/*
+Для мобильных устройств при появлении клавиатуры
+*/
+#quickorderpopup.fancybox-content.input-focus .product-image img {
+    display: none;
+}
+
+#quickorderpopup.fancybox-content.input-focus .quickord_wrapper {
+    min-height: auto;
+}
+
+#quickorderpopup.fancybox-content.input-focus {
+    min-height: auto;
+    height: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+    .order_accept.fancybox-content {
+        font-size: 0.8em;
+    }
+    div#quickorderpopup .product-image img {
+        width: 110px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -21,15 +21,62 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
 
     private function _init( $Ajax = false ) {
 		if (!$this->addonParams) {
+            $app = \Joomla\CMS\Factory::getApplication() ;
+            $doc = \Joomla\CMS\Factory::getDocument();
+            $controller = $app->input->get('controller' , false ) ;
+            $category_id = $app->input->get('category_id' , false ) ;
+            $product_id = $app->input->get('product_id' , false ) ;
             if( !$Ajax )
             {
+                
+                $this->_getPluginVersion();
+                $quickorderParams = [
+                    // Версия плагина
+                    'version' => $this->version         ,
+                    'debug'         =>  $this->params->get('debug_on' , false ) ,
+
+                    'controller'    =>  $controller     ,
+                    'category_id'   =>  $category_id    ,
+                    'product_id'    =>  $product_id     ,
+                    // Класс для доступной кнопки
+                    'quickorderBtnOn' => 'quickorder-on' ,
+                    // Ключ для Session Storage
+                    'sessionStorageKey' => 'Quickorder' ,
+                    'phoneMask' => $this->params->get('phoneMask' , '+7 (000) 000-00-00' )  ,
+                    'selectors' => [
+                        // Css селектор карточеи товара на странице категории
+                        // этот элемент должен содеражать атребуты
+                        // data-product_id и data-category_id ,
+                        'blockProduct' => '.list_product .block_product-item > div' ,
+                        // Селектор кнопки быстрого заказа
+                        'quickorderBtn' => '.quickorder.btn',
+                    ],
+                    'Fancybox'=>[
+                        'TimeOutModalAccept'=> ( $this->params->get('TimeOutModalAccept' , 8 ) * 1000 ) ,
+                    ],
+                ];
+
+                # Критичиские стили для кнопки "Быстрый заказ"
+                $doc->addScriptOptions('quickorder' , $quickorderParams);
                 $pathCss = JPATH_PLUGINS . '/jshoppingproducts/quickorder/assets/css/critical.css' ;
                 $paramsCss = [
                     'debug' => $this->params->get('debug_on' , false ) ,
                 ] ;
                 \GNZ11\Document\Document::addIncludeStyleDeclaration( $pathCss , $paramsCss ) ;
+                // Скрипт инициализации
+                $paramsScript = [
+                    'debug' => $this->params->get('debug_on' , false ) ,
+                ] ;
+
+                $pathScript = JPATH_PLUGINS . '/jshoppingproducts/quickorder/assets/js/critical.category.js' ;
+                if( $controller == 'product' )
+                {
+                    $pathScript = JPATH_PLUGINS . '/jshoppingproducts/quickorder/assets/js/critical.product.js' ;
+                } #END IF
+
+                \GNZ11\Document\Document::addIncludeScriptDeclaration( $pathScript , $paramsScript ) ;
+
             }else{
-                $app = \Joomla\CMS\Factory::getApplication() ;
                 $product_id = $app->input->get('product_id' ,false ) ;
                 $category_id = $app->input->get('category_id' ,false ) ;
                 $this->productData = $this->_getProduct( $product_id , $category_id );
@@ -43,34 +90,37 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
 			$this->addonParams = (object)$addon->getParams();
 			if ($this->addonParams->enable) {
 				$adv_user = JSFactory::getUser();
-				ob_start();
-                    if (is_file(__DIR__ . '/tmpl/form.custom.php')) {
+                $this->addonForm = null;
+                if( $Ajax )
+                {
+                    ob_start();
+                    if( is_file(__DIR__ . '/tmpl/form.custom.php') )
+                    {
                         include __DIR__ . '/tmpl/form.custom.php';
-                    } else {
+                    }
+                    else
+                    {
                         include __DIR__ . '/tmpl/form.php';
                     }
-                    $this->addonForm = null ;
-                    if ($Ajax) {
-                        $this->addonForm = ob_get_contents();
-                    }else{
+                    $this->addonForm = ob_get_contents();
+                    ob_end_clean();
+                } #END IF
+//
 
-                    }#END IF
-//                    $this->addonForm = ob_get_contents();
-				ob_end_clean();
 
 				if ($this->addonParams->load_assets) {
-					$doc = JFactory::getDocument();
+                    # Установка надписей на кнопках
+				    $doc->addStyleDeclaration("
+				        .quickorder-on .quickorder:before{
+                            content: '".$this->params->get('btnProductText', 'Быстрый заказ')."';
+                        }
+                        .quickorder-ordered .quickorder:before{
+                            content: '".$this->params->get('btnProductOrdered', 'Заказ оформлен')."';
+                        }
+				    ");
 
-                    $doc->addScriptDeclaration("
-                        setTimeout(function () {
-                            jQuery('.quickorder.btn').on('click.quickorder' , function () {
-                                var Element = this ;
-                                wgnz11.load.js( wgnz11.Options.Ajax.siteUrl+'plugins/jshoppingproducts/quickorder/assets/js/driver.js' ).then(function (a) {
-                                    new QuickorderDriver(Element);
-                                },function (err) { console.error(err)})
-                            })
-                        },2000);
-                    ");
+
+
 
 //					$doc->addScript(JURI::base(true).'/plugins/jshoppingproducts/quickorder/assets/driver.js');
 					# Todo передать в driver.js
@@ -93,11 +143,11 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
     }
 
 	function onAfterRender() {
-        if (!$this->addonForm) {
+       /* if (!$this->addonForm) {
             return;
         }
         $app = JFactory::getApplication();
-        $app->setBody(str_ireplace('</body>', $this->addonForm.'</body>', $app->getBody(false)));
+        $app->setBody(str_ireplace('</body>', $this->addonForm.'</body>', $app->getBody(false)));*/
     }
 
     function onBeforeDisplayProductView(&$view){
@@ -220,6 +270,20 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
         ob_start();
         include $path;
         return ob_get_clean();
+    }
+
+    /**
+     * Получить версию плагина из XML файла
+     *
+     * @since version
+     */
+    private function _getPluginVersion(){
+        $file = \Joomla\CMS\Filesystem\File::stripExt( basename(__FILE__)  );
+        $xml_file = __DIR__ .'/'.$file.'.xml';
+        $dom = new DOMDocument("1.0", "utf-8");
+        $dom->load($xml_file);
+        $version = $dom->getElementsByTagName('version')->item(0)->textContent;
+        $this->version = $version ;
     }
 
 
