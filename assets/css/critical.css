@@ -80,10 +80,12 @@
 @media only screen and (max-width: 600px){
     div#quickorder.quickorder-product {
         text-align: center;
-        margin: 0 0 10px 0;
+        margin: -5px 0 0px 8px;
+        float: left;
     }
-    #quickorder.quickorder-product .btn.quickorder{
+    #quickorder.quickorder-product > span.btn.quickorder{
         width: 155px;
+        height: 45px;
     }
 }
 

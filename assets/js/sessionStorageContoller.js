@@ -34,7 +34,8 @@ window.sessionStorageContoller = function ( onElement ) {
 
         $('.quickorder-on').on('click.quickorder' , this.__params.selectors.quickorderBtn , function () {
             var Element = this ;
-            wgnz11.load.js( wgnz11.Options.Ajax.siteUrl+'plugins/jshoppingproducts/quickorder/assets/js/driver.js?'+self.__params.version ).then(function (a) {
+            wgnz11.load.js( wgnz11.Options.Ajax.siteUrl+'plugins/jshoppingproducts/quickorder/assets/js/driver.js?'+self.__params.version )
+                .then(function (a) {
                 new QuickorderDriver(Element);
             },function (err) { console.error(err)})
         });

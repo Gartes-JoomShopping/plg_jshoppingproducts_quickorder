@@ -32,6 +32,7 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+
 				<field name="theme"
 					type="list"
 					default="light"
@@ -45,7 +46,33 @@
 					filter="raw" >
 						<option value="light">Light</option>
 						<option value="dark">Dark</option>
-					</field>	
+					</field>
+				<field name="phoneMask"
+					   type="text"
+					   default="+7 (000) 000-00-00"
+					   class="phoneMask "
+					   readonly=""
+					   required=""
+					   label="QUICKORDER_PHONE_MASK"
+					   description="QUICKORDER_PHONE_MASK_DESC"
+					   showon=""
+					   hint=""
+					   filter="raw" />
+				<field name="TimeOutModalAccept"
+					   type="text"
+					   default="8"
+					   class="TimeOutModalAccept "
+					   readonly=""
+					   required=""
+					   label="QUICKORDER_TIME_OUT_MODAL_ACCEPT"
+					   description="QUICKORDER_TIME_OUT_MODAL_ACCEPT_DESC"
+					   showon=""
+					   hint=""
+					   filter="raw" />
+			</fieldset>
+
+<!--			Вкладка быстрого заказа -->
+			<fieldset name="quickOrder">
 				<field name="btnProductText"
 					type="text"
 					default=""
@@ -70,34 +97,53 @@
 					showon=""
 					hint=""
 					filter="raw" />
+			</fieldset>
 
-				<field name="phoneMask"
+
+
+
+<!--			Вкладка Нашли дешевле? Снизим цену! -->
+			<fieldset name="GetDiscount">
+<!--				Текст кнопки -->
+				<field name="GetDiscountBtnText"
 					type="text"
-					default="+7 (000) 000-00-00"
-					class="phoneMask "
+					default=""
+					class="GetDiscountBtnText "
 					readonly=""
 					required=""
-					label="QUICKORDER_PHONE_MASK"
-					description="QUICKORDER_PHONE_MASK_DESC"
+					label="QUICKORDER_GET_DISCOUNT_BTN_TEXT"
+					description="QUICKORDER_GET_DISCOUNT_BTN_TEXT_DESC"
 					showon=""
 					hint=""
 					filter="raw" />
-				<field name="TimeOutModalAccept"
+				<field name="GetDiscountBtnTextAfter"
 					type="text"
-					default="8"
-					class="TimeOutModalAccept "
+					default=""
+					class="GetDiscountBtnTextAfter "
 					readonly=""
 					required=""
-					label="QUICKORDER_TIME_OUT_MODAL_ACCEPT"
-					description="QUICKORDER_TIME_OUT_MODAL_ACCEPT_DESC"
+					label="QUICKORDER_GET_DISCOUNT_BTN_TEXT_AFTER"
+					description="QUICKORDER_GET_DISCOUNT_BTN_TEXT_AFTER_DESC"
 					showon=""
 					hint=""
 					filter="raw" />
-
-
-
-						
-
+					
+					
+<!--				Получатель письма с данными -->
+				<field name="GetDiscountEmailRecipient"
+					type="text"
+					default=""
+					class="GetDiscountEmailRecipient "
+					readonly=""
+					required=""
+					label="QUICKORDER_GET_DISCOUNT_EMAIL_RECIPIENT"
+					description="QUICKORDER_GET_DISCOUNT_EMAIL_RECIPIENT_DESC"
+					showon=""
+					hint=""
+					filter="raw" />
+					
+					
+					
 			</fieldset>
 		</fields>
 

@@ -56,25 +56,36 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
                     ],
                 ];
 
+
+
+
                 # Критичиские стили для кнопки "Быстрый заказ"
                 $doc->addScriptOptions('quickorder' , $quickorderParams);
                 $pathCss = JPATH_PLUGINS . '/jshoppingproducts/quickorder/assets/css/critical.css' ;
-                $paramsCss = [
+                $paramsAddIncludeDeclaration = [
                     'debug' => $this->params->get('debug_on' , false ) ,
                 ] ;
-                \GNZ11\Document\Document::addIncludeStyleDeclaration( $pathCss , $paramsCss ) ;
-                // Скрипт инициализации
-                $paramsScript = [
-                    'debug' => $this->params->get('debug_on' , false ) ,
-                ] ;
+                \GNZ11\Document\Document::addIncludeStyleDeclaration( $pathCss , $paramsAddIncludeDeclaration ) ;
 
+                // Скрипт инициализации
                 $pathScript = JPATH_PLUGINS . '/jshoppingproducts/quickorder/assets/js/critical.category.js' ;
                 if( $controller == 'product' )
                 {
                     $pathScript = JPATH_PLUGINS . '/jshoppingproducts/quickorder/assets/js/critical.product.js' ;
+                    $doc = \Joomla\CMS\Factory::getDocument();
+
+                    $doc->addStyleDeclaration("
+                        .l-get-discount span.l-get-discount-btn:after {
+                            content: '" . $this->params->get('GetDiscountBtnText', 'Нашли дешевле? Снизим цену!') . "';
+                        }
+                        .l-get-discount.off span.l-get-discount-btn:after {
+                            content: '" . $this->params->get('GetDiscountBtnTextAfter', 'Заявка для получения скидки оформлена') . "';
+                        }
+                    ");
+
                 } #END IF
 
-                \GNZ11\Document\Document::addIncludeScriptDeclaration( $pathScript , $paramsScript ) ;
+                \GNZ11\Document\Document::addIncludeScriptDeclaration( $pathScript , $paramsAddIncludeDeclaration ) ;
 
             }else{
                 $product_id = $app->input->get('product_id' ,false ) ;
@@ -91,6 +102,7 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
 			if ($this->addonParams->enable) {
 				$adv_user = JSFactory::getUser();
                 $this->addonForm = null;
+
                 if( $Ajax )
                 {
                     ob_start();
@@ -122,6 +134,10 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
 
 
 
+
+
+
+
 //					$doc->addScript(JURI::base(true).'/plugins/jshoppingproducts/quickorder/assets/driver.js');
 					# Todo передать в driver.js
 					$doc->addScript(JURI::base(true).'/plugins/jshoppingproducts/quickorder/assets/script.js');
@@ -131,16 +147,7 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
 		}
 	}
 
-    function onAfterCartAddOk( $cart, $product_id, $quantity, $attribut, $freeattribut ){
-//        echo'<pre>';print_r( $cart );echo'</pre>'.__FILE__.' '.__LINE__;
-//        echo'<pre>';print_r( $product_id );echo'</pre>'.__FILE__.' '.__LINE__;
-//        echo'<pre>';print_r( $quantity );echo'</pre>'.__FILE__.' '.__LINE__;
-//        echo'<pre>';print_r( $attribut );echo'</pre>'.__FILE__.' '.__LINE__;
-//        echo'<pre>';print_r( $freeattribut );echo'</pre>'.__FILE__.' '.__LINE__;
 
-//        die(__FILE__ .' '. __LINE__ );
-
-    }
 
 	function onAfterRender() {
        /* if (!$this->addonForm) {
