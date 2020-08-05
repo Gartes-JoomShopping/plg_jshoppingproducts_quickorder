@@ -12,7 +12,7 @@ window.ProductsQuickorderDriver = function (){
         btn : 'span.quickorder' ,
         phoneMaskElement : '.jmp__input_tel',
     };
-    console.log(this.__param)
+
     /**
      * параметры маски поля
      * @type {{onComplete: Window.ProductsQuickorderDriver.onMaskComplete, onKeyPress: Window.ProductsQuickorderDriver.onMaskKeyPress, mask: *, element: string}}
@@ -30,12 +30,6 @@ window.ProductsQuickorderDriver = function (){
      * Валидация формы БЫСТРОГО ЗАКАЗА
      */
     this.formValid = function () {
-
-        console.log( self )
-        console.log( this )
-
-
-
 
         var $required = $(self.selectors.form).find('[data-required]');
         var validResult = true ;
@@ -57,6 +51,7 @@ window.ProductsQuickorderDriver = function (){
         self.BtnControl(validResult)
     }
     /**
+     * Модальное Окно
      * Включить отключить кнопку для отправки формы БЫСТРОГО ЗАКАЗА
      * Если эта форма не проходит валидацию
      * @param validResult
@@ -123,7 +118,6 @@ window.ProductsQuickorderDriver = function (){
             self.BtnControl(false ) ;
         }
     }
-
     /**
      * Показать окно с информацией - заказ принят
      * @param html
@@ -148,6 +142,16 @@ window.ProductsQuickorderDriver = function (){
      * После принятия заказа сделать кнопку для быстрого заказа в товаре не активной
      */
     this.quickorderBtnOff = function() {
+        var rootParen = $(self.__param.selectors.quickorderBtn)
+        if (self.__param.controller === "category" ){
+            console.log( this.currentElement )
+            $('.__current-quickorder').removeClass('__current-quickorder')
+                .closest('.quickorder-on')
+                .toggleClass( 'quickorder-on quickorder-ordered' )
+                .off( 'click.quickorder' ) ;
+            return ;
+        }
+
         $(self.__param.selectors.quickorderBtn)
             .parent()
             .toggleClass( 'quickorder-on quickorder-ordered' )

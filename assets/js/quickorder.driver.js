@@ -31,8 +31,9 @@ window.QuickorderDriver = function ( onElement ) {
 
     this.Init = function ()
     {
+        $(onElement).addClass('__current-quickorder')
 
-        console.log( this.__param )
+
         this.getParentElemet()
         this.getProduct()
         this.getForm();
