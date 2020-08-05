@@ -3,10 +3,17 @@
     color: #fff;
 }
 
+.forms-extensions-fields.tos a {
+    color: #fff;
+}
+#quickorderpopup label ,
+#quickorderpopup textarea + label,
 #quickorderpopup input + label {
     color: #000;
     
 }
+#quickorderpopup textarea.no-empty  + label ,
+#quickorderpopup textarea:focus + label,
 #quickorderpopup input.no-empty  + label , 
 #quickorderpopup input:focus + label{
     background: transparent;

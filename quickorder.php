@@ -16,7 +16,11 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
     private $version = '4.4.1' ;
 	private $addonParams;
 	private $addonForm;
-
+    /**
+     * @var mixed|null
+     * @since version
+     */
+    protected $formType;
 
 
     private function _init( $Ajax = false ) {
@@ -35,11 +39,18 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
                     'version' => $this->version         ,
                     'debug'         =>  $this->params->get('debug_on' , false ) ,
 
+
                     'controller'    =>  $controller     ,
                     'category_id'   =>  $category_id    ,
                     'product_id'    =>  $product_id     ,
                     // Класс для доступной кнопки
                     'quickorderBtnOn' => 'quickorder-on' ,
+                    // Параметры для обработчика форм
+                    'FormsDriver' =>[
+                        // Класс для неактивной кнопки
+                        'btnOff' => 'off',
+
+                    ],
                     // Ключ для Session Storage
                     'sessionStorageKey' => 'Quickorder' ,
                     'phoneMask' => $this->params->get('phoneMask' , '+7 (000) 000-00-00' )  ,
@@ -50,6 +61,9 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
                         'blockProduct' => '.list_product .block_product-item > div' ,
                         // Селектор кнопки быстрого заказа
                         'quickorderBtn' => '.quickorder.btn',
+                        // Селектор поля телефона для установки маски
+                        'phoneMaskElement' => '.jmp__input_tel[name="phone"]',
+
                     ],
                     'Fancybox'=>[
                         'TimeOutModalAccept'=> ( $this->params->get('TimeOutModalAccept' , 8 ) * 1000 ) ,
@@ -75,7 +89,7 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
                     $doc = \Joomla\CMS\Factory::getDocument();
 
                     $doc->addStyleDeclaration("
-                        .l-get-discount span.l-get-discount-btn:after {
+                        .l-get-discount span.l-get-form-btn.get-discount:after {
                             content: '" . $this->params->get('GetDiscountBtnText', 'Нашли дешевле? Снизим цену!') . "';
                         }
                         .l-get-discount.off span.l-get-discount-btn:after {
@@ -137,9 +151,7 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
 
 
 
-
-//					$doc->addScript(JURI::base(true).'/plugins/jshoppingproducts/quickorder/assets/driver.js');
-					# Todo передать в driver.js
+					# Todo передать в quickorder.driver.js
 					$doc->addScript(JURI::base(true).'/plugins/jshoppingproducts/quickorder/assets/script.js');
 					$doc->addStyleSheet(JURI::base(true).'/plugins/jshoppingproducts/quickorder/assets/css/style.css');
 				}
@@ -149,13 +161,7 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
 
 
 
-	function onAfterRender() {
-       /* if (!$this->addonForm) {
-            return;
-        }
-        $app = JFactory::getApplication();
-        $app->setBody(str_ireplace('</body>', $this->addonForm.'</body>', $app->getBody(false)));*/
-    }
+	function onAfterRender() { }
 
     function onBeforeDisplayProductView(&$view){
 		$this->_init();
@@ -201,20 +207,136 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
 		}
 	}
 
+    /**
+     * Получени объекта продукта
+     * @param $product_id
+     * @param $category_id
+     *
+     * @return array
+     *
+     * @since version
+     */
 	private function _getProduct( $product_id , $category_id  )
     {
         $jshopConfig = JSFactory::getConfig();
         $image_path = '/components/com_jshopping/files/img_products/';
         $product = JSFactory::getTable('product', 'jshop');
         $product->load($product_id);
+
+
+
+
+
         $images = $product->getImages();
         $ret = [
             'product_id' => $product_id,
             'category_id' => $category_id,
-            'name' => $product->{'name_ru-RU'},
+            'name' => $product->{'name_ru-RU'} ,
+            'product_ean' => $product->product_ean ,
             'image' => ['thumb' => $image_path . $images[0]->{'image_thumb'},
                 'title' => $images[0]->{'_title'},],];
         return $ret;
+    }
+
+
+    /**
+     * Загрузка контактных форм и обработка ответа
+     *
+     * @since version
+     */
+    public function onAjaxGetExtensionsForm (){
+        $app = \Joomla\CMS\Factory::getApplication() ;
+        $method = $app->input->get('method' , false );
+        $this->formType = $app->input->get('formType' , false );
+        $this->template = $app->input->get('template' , 'forms_extensions' );
+        $formType = $app->input->get('formType' , 'GetDiscount' );
+
+        $product_id = $app->input->get('product_id' ,false ) ;
+        $category_id = $app->input->get('category_id' ,false ) ;
+        $this->productData = $this->_getProduct( $product_id , $category_id );
+
+
+        $this->DataTemplate = [] ;
+        switch ($formType){
+
+            default :
+
+                $this->DataTemplate = [
+                    'title' => 'Заявка на скидку ',
+                ];
+        }
+
+        $result['html'] = $this->loadTemplate( $this->template ) ;
+
+        $result['params'] = [
+            'theme'         =>  $this->params->get('theme' , 'light' ) ,
+        ];
+
+        echo new JResponseJson($result);
+        die( );
+
+    }
+
+    /**
+     * Отправка данных форм на Email
+     *
+     * @throws Exception
+     * @since version
+     */
+    public function onAjaxSend(){
+        $app = \Joomla\CMS\Factory::getApplication() ;
+
+        $arrayFields = [
+           'subject'     =>  'STRING',
+           'l_name'     =>  'STRING',
+           'phone'      =>  'STRING',
+           'email'      =>  'RAW',
+           'message'    =>  'STRING',
+           'product'    =>  'STRING',
+           'product_ean'    =>  'STRING',
+
+        ];
+        $this->Data = $app->input->getArray( $arrayFields , null );
+
+        $EmailRecipient = $this->params->get('GetDiscountEmailRecipient') ;
+
+        $mailer = \Joomla\CMS\Factory::getMailer();
+        $config = \Joomla\CMS\Factory::getConfig();
+
+        $sender = array(
+            $config->get( 'mailfrom' ),
+            $config->get( 'fromname' )
+        );
+        $recipient = array( $EmailRecipient , );
+        $mailer->addRecipient($recipient);
+
+        // Create the Mail
+        $body = $this->loadTemplate( 'ajax_send' ) ;
+
+        $mailer->setSubject( $this->Data['subject'] );
+        $mailer->isHtml(true);
+        $mailer->Encoding = 'base64';
+        $mailer->setBody($body);
+
+        //         Optional file attached
+        //        $mailer->addAttachment(JPATH_COMPONENT.'/assets/document.pdf');
+        $send = $mailer->Send();
+        if( $send !== true )
+        {
+            $this->Data['html'] = 'Не удалось создать заказ';
+        }
+        else
+        {
+            $this->Data['html'] = 'Спасибо, заказ принят. Ждите звонка';
+        }
+
+        echo new JResponseJson($this->Data);
+        die();
+
+
+
+
+
     }
 
     /**
@@ -223,12 +345,15 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
      * @since version
      */
     public function onAjaxQuickOrder(){
-        /*$app = \Joomla\CMS\Factory::getApplication() ;
-        $product_id = $app->input->get('product_id' ,false ) ;
-        $category_id = $app->input->get('category_id' ,false ) ;
-        $this->productData = $this->_getProduct( $product_id , $category_id );
-        $this->productHtml = $this->loadTemplate('product');*/
 
+
+        $app = \Joomla\CMS\Factory::getApplication() ;
+        $method = $app->input->get('method' , false );
+        if( $method )
+        {
+            $this->{'onAjax'.$method}();
+            return ;
+        }#END IF
 
 	    try
 	    {

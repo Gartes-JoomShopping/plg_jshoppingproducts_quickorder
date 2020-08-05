@@ -1,4 +1,5 @@
 setTimeout(function () {
+
     var $ = jQuery ;
     if (typeof wgnz11 === 'undefined' ){
         var I = setInterval(function () {
@@ -10,11 +11,15 @@ setTimeout(function () {
         new QuickorderStart()
     }
     function QuickorderStart() {
+        this.__plugin = 'quickorder';
+        this.__params = Joomla.getOptions(this.__plugin, {});
         var self = this;
         var QuickorderSesData ;
         var Element ;
-        this.__plugin = 'quickorder';
-        this.__params = Joomla.getOptions(this.__plugin, {});
+        var _v = self.__params.version ;
+        var _host = wgnz11.Options.Ajax.siteUrl ;
+
+
 
         QuickorderSesData = JSON.parse( sessionStorage.getItem(this.__params.sessionStorageKey ) );
 
@@ -23,12 +28,16 @@ setTimeout(function () {
                 .addClass(this.__params.quickorderBtnOn)
                 .on('click.quickorder' , self.__params.selectors.quickorderBtn , function () {
                     Element = this ;
-                    wgnz11.load.js( wgnz11.Options.Ajax.siteUrl+'plugins/jshoppingproducts/quickorder/assets/js/driver.js?'+self.__params.version ).then(function (a) {
-                        new QuickorderDriver(Element);
-                    },function (err) { console.error(err)})
-            });
+                    wgnz11.load.js( _host+'plugins/jshoppingproducts/quickorder/assets/js/driver.js?'+_v )
+                        .then(function (){
+                            wgnz11.load.js( _host+'plugins/jshoppingproducts/quickorder/assets/js/quickorder.driver.js?'+_v )
+                                .then(function (a) {
+                                    new QuickorderDriver(Element);
+                                },function (err) { console.error(err)})
+                        })
+                });
         }else{
-            wgnz11.load.js( wgnz11.Options.Ajax.siteUrl+'plugins/jshoppingproducts/quickorder/assets/js/sessionStorageContoller.js?'+self.__params.version );
+            wgnz11.load.js( _host+'plugins/jshoppingproducts/quickorder/assets/js/sessionStorageContoller.js?'+_v );
         }
         console.log('QuickorderSesData' , QuickorderSesData)
     }

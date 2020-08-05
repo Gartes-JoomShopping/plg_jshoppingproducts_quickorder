@@ -27,7 +27,7 @@
 .btn.btn-info.quickorder {
     background: #fff;
     border: 2px solid #f56212;
-    border-radius: 0px;
+    border-radius: 6px;
     color: #f56212 ;
     opacity: 0.2;
     cursor: default;
@@ -39,9 +39,13 @@
     text-align: center;
     height: 30px;
 }
-.btn.btn-info.button_product.quickorder {
+#quickorder{
     width: 200px;
-    height: 43px;
+    float: left;
+}
+.btn.btn-info.button_product.quickorder {
+
+    height: 41px;
     line-height: 43px;
 }
 .quickorder-on .btn.btn-info.quickorder{
@@ -79,13 +83,19 @@
 /* Страница товара */
 @media only screen and (max-width: 600px){
     div#quickorder.quickorder-product {
+        height: 49px;
         text-align: center;
         margin: -5px 0 0px 8px;
         float: left;
     }
     #quickorder.quickorder-product > span.btn.quickorder{
         width: 155px;
-        height: 45px;
+        height: 44px;
+        line-height: 44px;
+        font-size: 16px;
+    }
+    #quickorder.quickorder-product.quickorder-ordered > .btn.btn-info.quickorder {
+        height: 40px;
     }
 }
 

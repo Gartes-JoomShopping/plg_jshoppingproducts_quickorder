@@ -1,0 +1,88 @@
+.forms-extensions{
+    float: left;
+}
+
+.b1c-description {
+    font-size: 12px;
+}
+.forms-extensions .forms-extensions-body > div ,
+.forms-extensions > div{
+    float: left;
+    width: 100%;
+}
+
+.quickorder-footer {
+    margin-top: 100px;
+}
+
+#forms_extensions .forms-extensions-header {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    /* font-size: 16px; */
+    /* margin-right: 44px; */
+    width: 100%;
+    text-align: center;
+}
+
+.create_offer #forms_extensions .forms-extensions-header {
+    top: 15px;
+}
+
+#forms_extensions .forms-extensions-header span.product_ean {font-size: 11px;display: inline-block;background: #ff7700;padding: 7px;margin-top: 0px;line-height: 0px;position: absolute;top: -10px;left: -5px;}
+
+#forms_extensions .forms-extensions-header .b1c-tl {
+    margin: 0px 44px;
+}
+.forms-extensions-body {
+    margin-top: 41px;
+    margin-bottom: 24px;
+}
+
+.create_offer .forms-extensions-body {
+    margin-top: -12px;
+}
+.quickorderformrow > div.input-prepend{
+    width: 100%;
+}
+
+.quickorderformrow > div.input-prepend input {
+    width: 100%;
+}
+.quickorderformrow.control-group {
+    max-width: 100%;
+    width: 100%;
+    float: left;
+}
+
+#quickorderpopup .quickorderformrow.control-group.submit button.btn-info {
+    margin: 0 0 0px 67px;
+}
+.forms-extensions-body textarea.b1c-txtin{
+    max-width: 100%;
+}
+
+#quickorderpopup .forms-extensions-fields.tos [type="checkbox"] {
+    width: auto;
+    min-width: auto;
+    margin-right: 21px;
+}
+
+.forms-extensions-fields.tos {}
+
+.forms-extensions-fields.tos a {
+    font-size: 16px;
+    text-align: left;
+}
+
+.forms-extensions-fields.tos span {
+    /* display: inline-block; */
+    /* float: left; */
+    margin-left: 0px;
+}
+
+#quickorderpopup .forms-extensions-footer {
+    margin-top: 10px;
+}
+
+button.fancybox-button.fancybox-close-small {}

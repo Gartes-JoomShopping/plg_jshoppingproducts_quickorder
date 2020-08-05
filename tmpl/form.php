@@ -54,7 +54,7 @@ defined('_JEXEC') or die;
                                name="l_name" value="<?= $adv_user->l_name ?>"
                                <?= ($this->addonParams->show_l_name?'data-required' : null )?>
                                />
-                        <label for="phone">
+                        <label for="l_name">
                             <?= $placeholder_input_l_name ?>
                         </label>
                     </div>
