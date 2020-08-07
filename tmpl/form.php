@@ -35,7 +35,6 @@ defined('_JEXEC') or die;
 			{ ?>
 				<div class="quickorderformrow control-group">
 						<div class="input-prepend">
-						  
 						  <input type="text" name="f_name" value="<?php print $adv_user->f_name ?>" <?php if ($this->addonParams->show_f_name == 1) { ?>data-required<?php } ?> placeholder="<?php echo JText::_('PLG_JSHOPPINGPRODUCTS_QUICKORDER_USER_F_NAME');if ($this->addonParams->show_f_name == 1) echo JText::_('PLG_JSHOPPINGPRODUCTS_QUICKORDER_REQUIRED'); ?>" />
 					</div>
 				</div>
