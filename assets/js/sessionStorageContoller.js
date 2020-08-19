@@ -45,9 +45,7 @@ window.sessionStorageContoller = function ( onElement ) {
         });
 
 
-        console.log(this.__params.selectors.blockProduct)
 
-        console.log(QuickorderSesData.product_id)
     }
     this.Init();
 

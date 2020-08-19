@@ -39,7 +39,7 @@ setTimeout(function () {
         }else{
             wgnz11.load.js( _host+'plugins/jshoppingproducts/quickorder/assets/js/sessionStorageContoller.js?'+_v );
         }
-        console.log('QuickorderSesData' , QuickorderSesData)
+
     }
 },500);
 
