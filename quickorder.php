@@ -343,7 +343,7 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
             $config->get( 'mailfrom' ),
             $config->get( 'fromname' )
         );
-        $recipient = array( $EmailRecipient , 'sad.net79@gmail.com' );
+        $recipient = array( $EmailRecipient /*, 'sad.net79@gmail.com'*/ );
         $mailer->addRecipient($recipient);
 
         // Create the Mail
