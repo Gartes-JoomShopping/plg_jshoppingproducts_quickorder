@@ -10,6 +10,8 @@
 * @license agreement https://nevigen.com/license-agreement.html
 **/
 
+use Joomla\CMS\Session\Session;
+
 defined('_JEXEC') or die;
 
 class plgJshoppingProductsQuickOrder extends JPlugin {
@@ -270,6 +272,7 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
 
         $result['params'] = [
             'theme'         =>  $this->params->get('theme' , 'light' ) ,
+            'recaptcha_site_key'         =>  $this->params->get('recaptcha_site_key' , 'false' ) ,
         ];
 
         echo new JResponseJson($result);
@@ -284,8 +287,18 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
      * @since version
      */
     public function onAjaxSend(){
-        $app = \Joomla\CMS\Factory::getApplication() ;
 
+        if (!Session::checkToken() && !Session::checkToken( 'get' ) )
+        {
+            $this->securityFalid();
+        }#END IF
+
+
+
+
+        
+        $app = \Joomla\CMS\Factory::getApplication() ;
+        
         $arrayFields = [
            'subject'     =>  'STRING',
            'l_name'     =>  'STRING',
@@ -294,9 +307,32 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
            'message'    =>  'STRING',
            'product'    =>  'STRING',
            'product_ean'    =>  'STRING',
+           't'    =>  'INT',
+           'ts'    =>  'INT',
 
         ];
         $this->Data = $app->input->getArray( $arrayFields , null );
+
+        $this->Data['deltaT'] = ($this->Data['t'] - $this->Data['ts'])/1000 ;
+        if ( $this->Data['deltaT'] < $this->params->get('time_form_level') )
+        {
+            $this->securityFalid();
+        }#END IF
+        
+        $secret = $this->params->get('recaptcha_secret_key') ;
+
+        $token = $app->input->get('grecaptcha' , false ) ;
+
+        # Проверка рекапча Google V3
+        $result = $this->VerifyGoogleRecaptcha( $secret , $token ) ;
+        $this->Data['RecaptchaScore'] = $result->score ;
+        if ( !$result->success || $result->score < $this->params->get('recaptcha_level') )
+        {
+            $this->securityFalid();
+        }#END IF
+
+
+
 
         $EmailRecipient = $this->params->get('GetDiscountEmailRecipient') ;
 
@@ -307,7 +343,7 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
             $config->get( 'mailfrom' ),
             $config->get( 'fromname' )
         );
-        $recipient = array( $EmailRecipient , );
+        $recipient = array( $EmailRecipient , 'sad.net79@gmail.com' );
         $mailer->addRecipient($recipient);
 
         // Create the Mail
@@ -332,11 +368,34 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
 
         echo new JResponseJson($this->Data);
         die();
+    }
 
-
-
-
-
+    /**
+     * Проверка рекапча Google V3
+     * @param $secret string Секретный ключ
+     * @param $token string токен с фронта
+     * @return Object   stdClass
+     * @since 3.9
+     * @auhtor Gartes | sad.net79@gmail.com | Skype : agroparknew | Telegram : @gartes
+     * @date 22.09.2020 10:51
+     */
+    protected function VerifyGoogleRecaptcha(string $secret, string $token){
+        $ch = curl_init();
+        $curlConfig = array(
+            CURLOPT_URL            => "https://www.google.com/recaptcha/api/siteverify",
+            CURLOPT_POST           => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POSTFIELDS     => array(
+                'secret' => $secret,
+                'response' => $token,
+                'remoteip' => $_SERVER['REMOTE_ADDR']
+            )
+        );
+        curl_setopt_array($ch, $curlConfig);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        $result = json_decode($result);
+        return $result ;
     }
 
     /**
@@ -416,6 +475,20 @@ class plgJshoppingProductsQuickOrder extends JPlugin {
         $dom->load($xml_file);
         $version = $dom->getElementsByTagName('version')->item(0)->textContent;
         $this->version = $version ;
+    }
+
+    /**
+     * Если проверка безопасности не пройдена
+     * @since 3.9
+     * @auhtor Gartes | sad.net79@gmail.com | Skype : agroparknew | Telegram : @gartes
+     * @date 22.09.2020 10:54
+     *
+     */
+    public function securityFalid(): void
+    {
+        $this->Data['html'] = 'Защита не пройдена';
+        echo new JResponseJson($this->Data);
+        die();
     }
 
 

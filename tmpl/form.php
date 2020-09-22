@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
 <div id="quickorderpopup">
 	<div class="quickord_wrapper">
 		<form class="form-horizontal" action="" method="POST" onsubmit="return quickOrder.submitForm()">
-
+            <?php echo JHtml::_( 'form.token' ); ?>
 			<div class="header"> <?php echo JText::_('PLG_JSHOPPINGPRODUCTS_QUICKORDER_LINK');?> </div>
 			<div class="container-product"><?= $this->productHtml ?></div>
             <div class="header product_name"></div>

@@ -8,6 +8,7 @@
  */ ?>
 <div id="quickorderpopup" class="plg-quickorder">
     <form id="forms_extensions">
+        <?php echo JHtml::_( 'form.token' ); ?>
         <input type="hidden" name="subject" value="<?= $this->DataTemplate['title'] ?>">
         <input type="hidden" name="product" value="<?= $this->productData['name']?>">
         <input type="hidden" name="product_ean" value="<?= $this->productData['product_ean']?>">

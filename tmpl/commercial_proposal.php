@@ -8,6 +8,7 @@
  */ ?>
 <div id="quickorderpopup" class="plg-quickorder create_offer">
     <form id="forms_extensions">
+
         <input type="hidden" name="subject" value="Запрос коммерческого предложения">
 
 

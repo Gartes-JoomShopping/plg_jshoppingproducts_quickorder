@@ -76,28 +76,37 @@ window.ProductFormsDriver = function ( Element ){
             Ajax.send( data ).then(  self.renderForm )
         },function (err) { console.log(err)});
     };
-
+    this.recaptchaSrc = 'https://www.google.com/recaptcha/api.js?render=' ;
+    /**
+     * Открыть форму
+     * @param r
+     */
     this.renderForm = function (r){
-        var theme = r.data.params.theme
-        self.load.css( self.Host+'plugins/jshoppingproducts/quickorder/assets/css/themes/'+theme+'.css?'+self.__param.version ).then(
+        var theme = r.data.params.theme;
+        var key = r.data.params.recaptcha_site_key;
+        Promise.all([
+            self.load.css( self.Host+'plugins/jshoppingproducts/quickorder/assets/css/themes/'+theme+'.css?'+self.__param.version ),
+            self.load.js( self.recaptchaSrc+key ),
+        ]).then(
             function () {
                 self.modalOpen(r)
             },function (err) { console.log(err) }
         );
-
         console.log( r )
     }
 
     this.modalExtensionsForm = null ;
-
+    this.timeStart = null ;
     this.modalOpen = function (r){
+        var key = r.data.params.recaptcha_site_key;
         self.__loadModul.Fancybox().then(function (a) {
             self.modalExtensionsForm = a.open( r.data.html ,{
                 baseClass : "quickorderForm extensions-form",
                 touch : false ,
                 afterShow   : function(instance, current)   {
-
+                    self.timeStart = Date.now() ;
                     var $form = $(self.selectors.form)
+
                     $form.find('[name="category_id"]').val( self.category_id );
                     $form.find('[name="product_id"]').val( self.product_id );
 
@@ -109,19 +118,48 @@ window.ProductFormsDriver = function ( Element ){
                     // Отправка формы
                     $form.on('submit.quickorderForm' , function (event) {
                         event.preventDefault();
-                        var $form = $(this);
-                        var Data = $form.serialize();
-                        self.getModul( "Ajax" ).then( function ( Ajax )
-                        {
-                            Ajax.send( Data ).then( function ( r )
-                            {
-                                // Закрыть текущие окно
-                                self.modalExtensionsForm.close();
-                                // Показать окно с информацией - заказ принят
-                                self.modalOrderAcceptOpen(r.data.html);
-                                console.log( r );
+                        var $form = $(this)
+                        var $BTN = $form.find('button[type="submit"]');
+                        if ($BTN.hasClass('disabled')) return ;
+
+                        $BTN.addClass('disabled');
+
+
+
+                        grecaptcha.ready(function() {
+                            grecaptcha.execute( key , {action: 'submit'}).then(function(token) {
+                                // Add your logic to submit to your backend server here.
+                                subSend(token)
                             });
                         });
+                        function subSend(token){
+                            var $_input ;
+
+                            // time
+                            $_input = $( $('<input />' , { type:'hidden',name:'ts', value : self.timeStart }) );
+                            $form.append($_input);
+
+                            // token
+                            $_input = $( $('<input />' , { type:'hidden', name: 'grecaptcha', value: token }) );
+                            $form.append($_input);
+
+                            var Data = $form.serialize();
+                            self.getModul( "Ajax" ).then( function ( Ajax )
+                            {
+                                Ajax.send( Data ).then( function ( r )
+                                {
+                                    // Закрыть текущие окно
+                                    self.modalExtensionsForm.close();
+                                    // Показать окно с информацией - заказ принят
+                                    self.modalOrderAcceptOpen(r.data.html);
+                                    console.log( r );
+                                },function (err){
+                                    $BTN.removeClass('disabled');
+                                });
+                            });
+                        }
+
+
 
                     });
 

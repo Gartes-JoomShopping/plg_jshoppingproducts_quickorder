@@ -42,6 +42,11 @@ if( $this->Data['product'] )
     <div style="width: 250px; float: left;" class="label">Сообщение : </div>
     <div style="float: left" class="value"><?=$this->Data['message']?></div>
 </div>
+<hr />
+<div class="row">Время заполнения формы: <?= $this->Data['deltaT'] ?> сек.</div>
+<div class="row">Уровень защиты reCAPTCHA score : <?= $this->Data['RecaptchaScore'] ?> сек.</div>
+<div class="row">IP Адрес : <?= $_SERVER['REMOTE_ADDR'] ?> сек.</div>
+
 <!--
 <div style="width: 100%; float:left" class="row">
     <div style="width: 250px" class="label"></div>
@@ -51,14 +56,3 @@ if( $this->Data['product'] )
 -->
 
 <?php
-
-/*echo'<pre>';print_r( $this->Data );echo'</pre>'.__FILE__.' '.__LINE__;
-die(__FILE__ .' '. __LINE__ );*/
-
-
-
-/*foreach ( $this->Data as $Data ){
-    */?><!--
-
-    --><?php
-/*}*/

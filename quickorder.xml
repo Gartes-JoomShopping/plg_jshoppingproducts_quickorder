@@ -7,7 +7,7 @@
 	<license></license>
 	<authorEmail>sad.net79@gmail.com</authorEmail>
 	<authorUrl></authorUrl>
-    <version>4.4.4</version>
+    <version>4.4.5</version>
 
 	<description><![CDATA[Developed & Powered by Gartes ]]></description>
 	<files>
@@ -32,6 +32,15 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+
+
+						
+							
+							
+						
+
+
+
 
 				<field name="theme"
 					type="list"
@@ -70,6 +79,64 @@
 					   hint=""
 					   filter="raw" />
 			</fieldset>
+
+
+<!--			Вкладка безопасность  -->
+			<fieldset name="security">
+				<field name="note_recaptcha" type="note"
+					   class="alert alert-info"
+					   label="Info recaptcha" description="QUICKORDER_RECAPTCHA_NOTE_RECAPTCHA" />
+				<field name="recaptcha_site_key"
+					   type="text"
+					   default=""
+					   class="recaptcha_site_key "
+					   size="20"
+					   readonly=""
+					   required=""
+					   label="QUICKORDER_RECAPTCHA_SITE_KEY"
+					   description="QUICKORDER_RECAPTCHA_SITE_KEY_DESC"
+					   showon=""
+					   hint=""
+					   filter="raw" />
+				<field name="recaptcha_secret_key"
+					   type="text"
+					   default=""
+					   class="recaptcha_secret_key "
+					   size="20"
+					   readonly=""
+					   required=""
+					   label="QUICKORDER_RECAPTCHA_SECRET_KEY"
+					   description="QUICKORDER_RECAPTCHA_SECRET_KEY_DESC"
+					   showon=""
+					   hint=""
+					   filter="raw" />
+				<field name="recaptcha_level"
+					   type="text"
+					   default="0.5"
+					   class="recaptcha_level "
+					   size="20"
+					   readonly=""
+					   required=""
+					   label="QUICKORDER_RECAPTCHA_LEVEL"
+					   description="QUICKORDER_RECAPTCHA_LEVEL_DESC"
+					   showon=""
+					   hint=""
+					   filter="raw" />
+				<field name="time_form_level"
+					   type="text"
+					   default="25"
+					   class="time_form_level "
+					   size="20"
+					   readonly=""
+					   required=""
+					   label="QUICKORDER_TIME_FORM_LEVEL"
+					   description="QUICKORDER_TIME_FORM_LEVEL_DESC"
+					   showon=""
+					   hint=""
+					   filter="raw" />
+			</fieldset>
+
+
 
 <!--			Вкладка быстрого заказа -->
 			<fieldset name="quickOrder">
